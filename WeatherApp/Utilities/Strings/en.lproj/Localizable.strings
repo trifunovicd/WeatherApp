@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Internship on 15/05/2020.
+  Copyright © 2020 Internship. All rights reserved.
+*/
+"error_alert_title" = "Error";
+"error_alert_message" = "An error occurred while fetching data.";
+"alert_ok_action" = "OK";
+"done" = "Done";
+"cell_error" = "The dequeued cell is not an instance of %s.";
+"location_lat" = "lat=%f";
+"location_lng" = "&lon=%f";
+"units" = "&units=%s";
+"temp_degree" = "%s°";
+"celsius" = "%s°C";
+"fahrenheit" = "%s°F";
+"temp_low_label" = "Low";
+"temp_high_label" = "High";
+"humidity" = "%d %%";
+"wind_speed_metric" = "%s m/s";
+"wind_speed_imperial" = "%s mph";
+"pressure" = "%d hpa";
+"locations_label" = "Locations";
+"units_label" = "Units";
+"conditions_label" = "Conditions";
