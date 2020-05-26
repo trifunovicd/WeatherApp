@@ -360,31 +360,36 @@ class HomeViewController: UIViewController {
         
         switch location.icon {
         case "clear-day", "partly-cloudy-day":
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
             viewModel.backgroundColor = (UIColor(hex: "#59B7E0"), UIColor(hex: "#D8D8D8"))
-            bodyImageHeight.constant = view.frame.height / 1.3
+            changeBodyImageAppearance(isFog: false)
         case "clear-night", "partly-cloudy-night":
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
             viewModel.backgroundColor = (UIColor(hex: "#044663"), UIColor(hex: "#234880"))
-            bodyImageHeight.constant = view.frame.height / 1.3
+            changeBodyImageAppearance(isFog: false)
         case "rain":
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
             viewModel.backgroundColor = (UIColor(hex: "#15587B"), UIColor(hex: "#4A75A2"))
-            
+            changeBodyImageAppearance(isFog: false)
         case "snow":
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
             viewModel.backgroundColor = (UIColor(hex: "#0B3A4E"), UIColor(hex: "#80D5F3"))
-            
+            changeBodyImageAppearance(isFog: false)
         case "fog":
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 999)
             viewModel.backgroundColor = (UIColor(hex: "#ABD6E9"), UIColor(hex: "#D8D8D8"))
-            bodyImageHeight.constant = view.frame.height
+            changeBodyImageAppearance(isFog: true)
         default:
-            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
             viewModel.backgroundColor = (UIColor(hex: "#59B7E0"), UIColor(hex: "#D8D8D8"))
-            bodyImageHeight.constant = view.frame.height / 1.3
+            changeBodyImageAppearance(isFog: false)
         }
         
         setGradientToView(color1: viewModel.backgroundColor.0, color2: viewModel.backgroundColor.1, view: gradientView)
+    }
+    
+    private func changeBodyImageAppearance(isFog: Bool) {
+        if isFog {
+            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 999)
+            bodyImageHeight.constant = view.frame.height
+        }
+        else {
+            bodyImageTopConstraint.priority = UILayoutPriority(rawValue: 249)
+            bodyImageHeight.constant = view.frame.height / 1.3
+        }
     }
 }

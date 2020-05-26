@@ -21,7 +21,7 @@ class HomeViewModel {
     var unit: Units!
     var defaultLocation: (Double, Double)!
     var locationLabel: String!
-    var backgroundColor: (UIColor, UIColor)!
+    var backgroundColor: (UIColor, UIColor) = (UIColor(hex: "#59B7E0"), UIColor(hex: "#D8D8D8"))
     
     func fetchSettingsData() {
         let settings = getSettings()
