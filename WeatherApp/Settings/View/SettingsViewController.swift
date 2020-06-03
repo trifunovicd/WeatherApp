@@ -58,7 +58,6 @@ class SettingsViewController: UIViewController {
     
     @objc private func closeModal() {
         viewModel.saveSettingsAction.onNext((viewModel.tempSettings, viewModel.tempLocations))
-        showSpinner()
     }
     
     private func setup() {
@@ -105,7 +104,10 @@ class SettingsViewController: UIViewController {
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
             let alert = self?.getErrorAlert()
             self?.present(alert!, animated: true, completion: nil)
-            
+        }).disposed(by: disposeBag)
+        
+        viewModel.showSpinner.subscribe(onNext: { [weak self] in
+            self?.showSpinner()
         }).disposed(by: disposeBag)
     }
     

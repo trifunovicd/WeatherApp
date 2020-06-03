@@ -17,6 +17,7 @@ class HomeViewModel {
     let locationRequest = PublishSubject<((Double, Double), Units)>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
+    let hideKeyboard = PublishSubject<Void>()
     var settings: TempSettings!
     var unit: Units!
     var defaultLocation: (Double, Double)!

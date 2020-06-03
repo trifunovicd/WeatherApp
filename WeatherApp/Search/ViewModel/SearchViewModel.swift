@@ -17,6 +17,10 @@ class SearchViewModel {
     let searchRequest = PublishSubject<String>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
+    let showSpinner = PublishSubject<Void>()
+    let removeSpinner = PublishSubject<Void>()
+    let closeModal = PublishSubject<Void>()
+    let hideKeyboard = PublishSubject<Void>()
     let saveLocationAction = PublishSubject<SearchPreview>()
     var hasSafeArea: Bool!
     var backgroundColor: (UIColor, UIColor)!
@@ -30,8 +34,10 @@ class SearchViewModel {
                 case .success(let searchPreviews):
                     self?.searchPreviews = searchPreviews
                     self?.fetchFinished.onNext(())
+                    self?.removeSpinner.onNext(())
                 case .failure(let error):
                     print(error)
+                    self?.removeSpinner.onNext(())
                     self?.alertOfError.onNext(())
                 }
             })

@@ -187,7 +187,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func openSearchView() {
-        searchTextBar.resignFirstResponder()
+        viewModel.hideKeyboard.onNext(())
         viewModel.homeCoordinatorDelegate?.openSearchView(backgroundColor: viewModel.backgroundColor)
     }
     
@@ -315,6 +315,10 @@ class HomeViewController: UIViewController {
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
             let alert = self?.getErrorAlert()
             self?.present(alert!, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+        
+        viewModel.hideKeyboard.subscribe(onNext: { [weak self] in
+            self?.searchTextBar.resignFirstResponder()
         }).disposed(by: disposeBag)
     }
     

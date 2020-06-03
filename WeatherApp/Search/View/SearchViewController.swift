@@ -66,11 +66,11 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        viewModel.hideKeyboard.onNext(())
         
         if let location = textField.text {
             viewModel.searchRequest.onNext(location)
-            showSpinner()
+            viewModel.showSpinner.onNext(())
         }
         
         return true
@@ -89,7 +89,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func closeModal() {
-        self.dismiss(animated: true, completion: nil)
+        viewModel.closeModal.onNext(())
     }
     
     
@@ -142,13 +142,27 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
             self?.tableView.layoutIfNeeded()
             self?.tableView.setContentOffset(.zero, animated: false)
             self?.tableView.reloadData()
-            self?.spinner.view.removeFromSuperview()
         }).disposed(by: disposeBag)
         
         viewModel.alertOfError.subscribe(onNext: { [weak self] in
             let alert = self?.getErrorAlert()
             self?.present(alert!, animated: true, completion: nil)
-            
+        }).disposed(by: disposeBag)
+        
+        viewModel.showSpinner.subscribe(onNext: { [weak self] in
+            self?.showSpinner()
+        }).disposed(by: disposeBag)
+        
+        viewModel.removeSpinner.subscribe(onNext: { [weak self] in
+            self?.spinner.view.removeFromSuperview()
+        }).disposed(by: disposeBag)
+        
+        viewModel.closeModal.subscribe(onNext: { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }).disposed(by: disposeBag)
+        
+        viewModel.hideKeyboard.subscribe(onNext: { [weak self] in
+            self?.searchTextBar.resignFirstResponder()
         }).disposed(by: disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -189,9 +203,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.onLocationClicked = { [weak self] in
             self?.viewModel.saveLocationAction.onNext(location)
             self?.viewModel.homeCoordinatorDelegate?.getWeatherForLocation()
-            
-            self?.showSpinner()
-            
+            self?.viewModel.showSpinner.onNext(())
         }
         
         return cell

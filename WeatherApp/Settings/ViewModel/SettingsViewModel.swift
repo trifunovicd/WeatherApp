@@ -18,6 +18,7 @@ class SettingsViewModel {
     let settingsRequest = PublishSubject<(TempSettings,[SearchPreview]?)>()
     let fetchFinished = PublishSubject<Void>()
     let alertOfError = PublishSubject<Void>()
+    let showSpinner = PublishSubject<Void>()
     let saveSettingsAction = PublishSubject<(TempSettings,[SearchPreview]?)>()
     let deleteLocationAction = PublishSubject<SearchPreview>()
     let changeSelectedLocation = PublishSubject<SearchPreview>()
@@ -124,6 +125,8 @@ class SettingsViewModel {
     
     func setSaveOption() -> Disposable {
         saveSettingsAction.asObservable().subscribe(onNext: { [unowned self] (newSettings, locations) in
+            self.showSpinner.onNext(())
+            
             let settings = Settings()
             settings.id = 0
             settings.metric = newSettings.metric
